@@ -1,0 +1,52 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title Document
+    link(href='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css', rel='stylesheet', integrity='sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS', crossorigin='anonymous')
+  body
+    .d-flex.flex-column.flex-md-row.align-items-center.p-3.px-md-4.mb-3.bg-white.border-bottom.shadow-sm
+      h5.my-0.mr-md-auto.font-weight-normal Axion Core Ltd.
+      nav.my-2.my-md-0.mr-md-3
+        a.p-2.text-dark(href='/payment') Start Subscription
+        a.p-2.text-dark(href='/details') Details
+        a.p-2.text-dark(href='/stop') Stop Subscription
+      a.btn.btn-outline-primary(href='#') Sign up
+    .container
+      .mb-3.text-center
+        .card.mb-4.shadow-sm
+          .card-header
+            h4.my-0.font-weight-normal Process payment
+          .card-body
+            .col-md-3
+            .col-md-3.text-center(style='margin:0 auto;')
+              form#adyen-encrypted-form(method='POST', action='/payment')
+                .form-group
+                  label Card Number
+                  input.form-control(type='text', size='20', data-encrypted-name='number', value='5212 3456 7890 1234')
+                .form-group
+                  label Holder Name
+                  input.form-control(type='text', size='20', data-encrypted-name='holderName', value='some name')
+                .form-row
+                  .col-md-1
+                  .form-group.col-md-3
+                    label Month
+                    input.form-control(type='text', size='2', data-encrypted-name='expiryMonth', value='10')
+                  .form-group.col-md-4
+                    label Year
+                    input.form-control(type='text', size='4', data-encrypted-name='expiryYear', value='2020')
+                  .form-group.col-md-3
+                    label CVC
+                    input.form-control(type='text', size='4', data-encrypted-name='cvc', value='737')
+                input(type='hidden', value=`${dateTime}`, data-encrypted-name='generationtime')
+
+                button.btn.btn-lg.btn-block.btn-success(type='submit') Pay
+    script(type='text/javascript', src='https://test.adyen.com/hpp/cse/js/8015472099133736.shtml')
+    script.
+        var form = document.getElementById('adyen-encrypted-form');
+        var options = {};
+        var encryptedBlobFieldName = "encryptedForm";
+        options.name = encryptedBlobFieldName;
+        adyen.createEncryptedForm(form, options);
