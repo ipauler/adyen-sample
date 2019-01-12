@@ -11,6 +11,11 @@ exports.getPayment = (req, res, next) => {
 exports.processPayment = (req, res, next) => {
     if (req.body.encryptedForm) {
         let adyen = new Adyen();
+        adyen.authrorize(req.body.encryptedForm, tmpUserId,
+            () => {res.render('payment_result', {msg: "Your payment was successful!"})},
+            () => {res.render('payment_result', {msg: "Sorry! Something went wrong"})});
+
+
         adyen.authrorize(req.body.encryptedForm, tmpUserId)
             .then(() => res.render('payment_result', {msg: "Your payment was successful!"}))
             .catch(() => res.render('payment_result', {msg: "Sorry! Something went wrong"}));
@@ -21,7 +26,7 @@ exports.processPayment = (req, res, next) => {
 
 exports.getSubscription = (req, res, next) => {
     let adyen = new Adyen();
-    adyen.listReccuring(tmpUserId).then((data) => {
+    adyen.listRecurring(tmpUserId).then((data) => {
         console.log(data);
         if (data.length) {
             res.render('sub_details', {data: data})

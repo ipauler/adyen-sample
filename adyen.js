@@ -41,7 +41,7 @@ module.exports = class Adyen {
         });
     };
 
-    listReccuring(userId) {
+    listRecurring(userId) {
         return new Promise((resolve, reject) => {
             axios.post(API_RECURRING_DETAILS, {
                 recurring: {
