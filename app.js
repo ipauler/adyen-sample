@@ -8,6 +8,7 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.set('view engine', 'pug');
+console.log("started");
 app.use(routes);
 
 app.listen(3000);
