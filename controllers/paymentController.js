@@ -1,4 +1,5 @@
 const Adyen = require('./../adyen');
+const axios = require('axios');
 
 const tmpUserId = 'yourShopperId_IOfW3k9G2PvXFu2j';
 
@@ -11,6 +12,7 @@ exports.getPayment = (req, res, next) => {
 exports.processPayment = (req, res, next) => {
     if (req.body.encryptedForm) {
         let adyen = new Adyen();
+        console.log(adyen);
         adyen.authrorize(req.body.encryptedForm, tmpUserId,
             () => {res.render('payment_result', {msg: "Your payment was successful!"})},
             () => {res.render('payment_result', {msg: "Sorry! Something went wrong"})});
@@ -34,10 +36,12 @@ exports.getSubscription = (req, res, next) => {
             res.render('payment_result', {msg: "You have no active subscriptions"})
         }
     }).catch(() => res.render('payment_result', {msg: "Sorry! Something went wrong"}));
-
+        console.log(adyen);
 };
 
-exports.getStopSubscription = (req, res, next) => {
+exports.getStopSubscription = async (req, res, next) => {
+    const data = await axios.get("https://google.com");
+    console.log(data.data);
     res.render('stop_sub');
 };
 exports.processStopSubscription = (req, res, next) => {
